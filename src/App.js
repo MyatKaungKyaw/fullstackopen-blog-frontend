@@ -23,7 +23,7 @@ const App = () => {
       setUser(loginUser)
       setUsername('')
       setPasswod('')
-    } catch (err){
+    } catch (err) {
       console.error(err)
     }
   }
@@ -46,7 +46,7 @@ const App = () => {
           passwordOnChange={passwordOnChange}
           handleSubmit={handleSubmit}
         />}
-      {user !== null && <BlogList blogs={blogs} />}
+      {user !== null && <BlogList blogs={blogs} name={user.name} />}
     </>
   )
 }
