@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import BlogList from './components/BlogList'
-import CreateBlog from './components/CreateBlog'
 import LogIn from './components/LogIn'
 import CreateBlog from './components/CreateBlog'
 import blogService from './services/blogs'
@@ -25,7 +24,7 @@ const App = () => {
   useEffect(() => {
     const loggedInUser = window.localStorage.getItem('loggedInUser')
     if (loggedInUser) {
-      setUser(JSON.parse(loggedInUser))
+      setUserRelated(JSON.parse(loggedInUser))
     }
   }, [])
 
@@ -35,7 +34,7 @@ const App = () => {
       const loginUser = await loginService.validateUser({ username, password })
 
       window.localStorage.setItem('loggedInUser', JSON.stringify(loginUser))
-      setUser(loginUser)
+      setUserRelated(loginUser)
       setUsername('')
       setPasswod('')
     } catch (err) {
@@ -43,21 +42,41 @@ const App = () => {
     }
   }
 
+  const handleCreateBlog = (e) =>{
+    e.preventDefault()
+    console.log('create blog')
+  }
+
   const handleLogOut = () => {
     window.localStorage.removeItem('loggedInUser')
-    setUser(null)
+    setUserRelated(null)
   }
 
+  //onChange handlers
   const usernameOnChange = (e) => {
-    setUsername(target.value)
+    setUsername(e.target.value)
   }
 
-  const passwordOnChange = (target) => {
-    setPasswod(target.value)
+  const passwordOnChange = (e) => {
+    setPasswod(e.target.value)
   }
 
-  const titleOnChange = (target) => {
-    setTitle(target.value)
+  const titleOnChange = (e) => {
+    setTitle(e.target.value)
+  }
+
+  const authorOnChange = (e) => {
+    setAuthor(e.target.value)
+  }
+
+  const urlOnChange = (e) => {
+    setUrl(e.target.value)
+  }
+
+  //helper functions
+  const setUserRelated= user => {
+    setUser(user)
+    blogService.setToken(user.token)
   }
 
   return (
@@ -77,7 +96,10 @@ const App = () => {
             title={title}
             author={author}
             url={url}
-            
+            titleOnChange={titleOnChange}
+            authorOnChange={authorOnChange}
+            urlOnChange={urlOnChange}
+            handleSubmit={handleCreateBlog}
           />
           <BlogList
             blogs={blogs}

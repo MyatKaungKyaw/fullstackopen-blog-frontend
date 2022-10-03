@@ -9,7 +9,7 @@ const LogIn = (props) => {
                         type='text'
                         name='username'
                         value={props.username}
-                        onChange={(({ target }) => props.usernameOnChange(target))}
+                        onChange={props.usernameOnChange}
                     />
                 </div>
                 <div>
@@ -18,7 +18,7 @@ const LogIn = (props) => {
                         type='password'
                         name='password'
                         value={props.password}
-                        onChange={(({ target }) => props.passwordOnChange(target))}
+                        onChange={props.passwordOnChange}
                     />
                 </div>
                 <button type='submit'>LogIn</button>
