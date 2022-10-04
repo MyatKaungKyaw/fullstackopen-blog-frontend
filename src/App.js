@@ -16,9 +16,7 @@ const App = () => {
   const [url, setUrl] = useState('')
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
+    setAllBlogs()
   }, [])
 
   useEffect(() => {
@@ -42,9 +40,20 @@ const App = () => {
     }
   }
 
-  const handleCreateBlog = (e) =>{
+  const handleCreateBlog = async (e) => {
     e.preventDefault()
-    console.log('create blog')
+    try {
+      const blog = {
+        title: title,
+        author: author,
+        url: url,
+      }
+      await blogService.create(blog)
+      resetCreateBlogInput()
+      await setAllBlogs()
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const handleLogOut = () => {
@@ -74,9 +83,20 @@ const App = () => {
   }
 
   //helper functions
-  const setUserRelated= user => {
+  const setUserRelated = user => {
     setUser(user)
     blogService.setToken(user.token)
+  }
+
+  const setAllBlogs = async () => {
+    const returnBlogs = await blogService.getAll()
+    setBlogs(returnBlogs)
+  }
+
+  const resetCreateBlogInput = () =>{
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   return (
