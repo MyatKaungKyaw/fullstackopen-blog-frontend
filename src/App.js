@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import BlogList from './components/BlogList'
 import LogIn from './components/LogIn'
 import CreateBlog from './components/CreateBlog'
+import Togglable from './components/Togglable'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -14,6 +15,9 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+
+  //ref
+  const createBlogRef = useRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -42,7 +46,7 @@ const App = () => {
     }
   }
 
-  const handleCreateBlog = (e) =>{
+  const handleCreateBlog = (e) => {
     e.preventDefault()
     console.log('create blog')
   }
@@ -74,7 +78,7 @@ const App = () => {
   }
 
   //helper functions
-  const setUserRelated= user => {
+  const setUserRelated = user => {
     setUser(user)
     blogService.setToken(user.token)
   }
@@ -92,15 +96,18 @@ const App = () => {
       }
       {user !== null
         && <>
-          <CreateBlog
-            title={title}
-            author={author}
-            url={url}
-            titleOnChange={titleOnChange}
-            authorOnChange={authorOnChange}
-            urlOnChange={urlOnChange}
-            handleSubmit={handleCreateBlog}
-          />
+          <Togglable text='new blog'>
+            <CreateBlog
+              title={title}
+              author={author}
+              url={url}
+              titleOnChange={titleOnChange}
+              authorOnChange={authorOnChange}
+              urlOnChange={urlOnChange}
+              handleSubmit={handleCreateBlog}
+              ref={createBlogRef}
+            />
+          </Togglable>
           <BlogList
             blogs={blogs}
             name={user.name}
