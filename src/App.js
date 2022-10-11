@@ -96,6 +96,10 @@ const App = () => {
         }
         {user !== null
           && <>
+            <h2>blogs</h2>
+            <p>{user.name} logged in</p>
+            <button onClick={handleLogOut}>logout</button>
+            
             <Togglable text='new blog' ref={createBlogRef}>
               <CreateBlog
                 createBlog={createBlog}
@@ -103,8 +107,6 @@ const App = () => {
             </Togglable>
             <BlogList
               blogs={blogs}
-              name={user.name}
-              handleLogOut={handleLogOut}
             />
           </>
         }
