@@ -1,4 +1,3 @@
-import blogs from "../services/blogs"
 import Togglable from "./Togglable"
 
 const Blog = ({ blog }) => {
@@ -17,14 +16,14 @@ const Blog = ({ blog }) => {
   return (
     <div style={blogStyle}>
       <p>{blog.title} {blog.author}</p>
-      <Togglable >
+      <Togglable text='view' cancelText='hide'>
         <>
-          <div>{blog.url}</div>
+          <a href={blog.url} target='_blank'  rel="noreferrer" className='blog-url'>{blog.url}</a>
           <div>
-            <p>likes : {blog.likes}</p> 
-            <button onClick={likeClick}>like</button>
-            </div>
-          <div>{blogs.user.name}</div>
+            <p className='blog-like'>likes : {blog.likes} </p>
+            <button onClick={likeClick} className='blog-like'>like</button>
+          </div>
+          {blog.user && <div>{blog.user.name}</div>}
         </>
       </Togglable>
     </div>

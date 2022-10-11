@@ -3,6 +3,8 @@ import { useState, useImperativeHandle, forwardRef } from 'react'
 const Togglable = forwardRef((props,ref) => {
     const [visible, setVisible] = useState(false)
 
+    const cancelText = props.cancelText ? props.cancelText : 'cancel'
+
     const show = (e) => {
         setVisible(true)
     }
@@ -20,7 +22,7 @@ const Togglable = forwardRef((props,ref) => {
             {!visible && <button onClick={show}>{props.text}</button>}
             {visible && <div>
                 {props.children}
-                <button onClick={hide}>cancel</button>
+                <button onClick={hide}>{cancelText}</button>
             </div>}
         </div>
     )
