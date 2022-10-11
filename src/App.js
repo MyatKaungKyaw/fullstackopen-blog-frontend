@@ -59,6 +59,7 @@ const App = () => {
       }
       const returnBlog = await blogService.create(blog)
       resetCreateBlogInput()
+      createBlogRef.current.hide()
       showMsg(`a new blog ${returnBlog.title} added`)
       await setAllBlogs()
     } catch (err) {
@@ -148,7 +149,7 @@ const App = () => {
         }
         {user !== null
           && <>
-            <Togglable text='new blog'>
+            <Togglable text='new blog' ref={createBlogRef}>
               <CreateBlog
                 title={title}
                 author={author}
@@ -157,7 +158,6 @@ const App = () => {
                 authorOnChange={authorOnChange}
                 urlOnChange={urlOnChange}
                 handleSubmit={handleCreateBlog}
-                ref={createBlogRef}
               />
             </Togglable>
             <BlogList
