@@ -24,10 +24,6 @@ const App = () => {
   const createBlogRef = useRef()
 
   useEffect(() => {
-    setAllBlogs()
-  }, [])
-
-  useEffect(() => {
     const loggedInUser = window.localStorage.getItem('loggedInUser')
     if (loggedInUser) {
       setUserRelated(JSON.parse(loggedInUser))
