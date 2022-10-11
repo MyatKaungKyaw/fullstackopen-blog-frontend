@@ -10,8 +10,6 @@ import loginService from './services/login'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPasswod] = useState('')
   //notification
   const [message, setMessage] = useState(null)
   const [isErrMsg, setIsErrMsg] = useState(false)
@@ -27,16 +25,13 @@ const App = () => {
     }
   }, [])
 
-  const handleLogin = async (e) => {
-    e.preventDefault()
+  const handleLogin = async (username, password) => {
     try {
       const loginUser = await loginService.validateUser({ username, password })
-      
+
       await setAllBlogs()
       window.localStorage.setItem('loggedInUser', JSON.stringify(loginUser))
       setUserRelated(loginUser)
-      setUsername('')
-      setPasswod('')
     } catch (err) {
       showErrMsg('username or password incorrect')
       console.error(err)
@@ -59,19 +54,8 @@ const App = () => {
     setUserRelated(null)
   }
 
-  //onChange handlers
-  const usernameOnChange = (e) => {
-    setUsername(e.target.value)
-  }
-
-  const passwordOnChange = (e) => {
-    setPasswod(e.target.value)
-  }
-
   //helper functions
   const setUserRelated = user => {
-    setUser(user)
-    blogService.setToken(user.token)
     if (user !== null) {
       setUser(user)
       blogService.setToken(user.token)
@@ -108,13 +92,7 @@ const App = () => {
       <NotificationBar message={message} isErr={isErrMsg} />
       <div className={message !== null ? 'show-notification-position' : ''}>
         {user === null
-          && <LogIn
-            username={username}
-            password={password}
-            usernameOnChange={usernameOnChange}
-            passwordOnChange={passwordOnChange}
-            handleSubmit={handleLogin}
-          />
+          && <LogIn handleLogin={handleLogin} />
         }
         {user !== null
           && <>
