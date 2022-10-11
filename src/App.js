@@ -15,10 +15,6 @@ const App = () => {
   //notification
   const [message, setMessage] = useState(null)
   const [isErrMsg, setIsErrMsg] = useState(false)
-  //create blog
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
 
   //ref
   const createBlogRef = useRef()
@@ -26,6 +22,7 @@ const App = () => {
   useEffect(() => {
     const loggedInUser = window.localStorage.getItem('loggedInUser')
     if (loggedInUser) {
+      setAllBlogs()
       setUserRelated(JSON.parse(loggedInUser))
     }
   }, [])
@@ -34,7 +31,8 @@ const App = () => {
     e.preventDefault()
     try {
       const loginUser = await loginService.validateUser({ username, password })
-
+      
+      await setAllBlogs()
       window.localStorage.setItem('loggedInUser', JSON.stringify(loginUser))
       setUserRelated(loginUser)
       setUsername('')
@@ -45,16 +43,9 @@ const App = () => {
     }
   }
 
-  const handleCreateBlog = async (e) => {
-    e.preventDefault()
+  const createBlog = async (blog) => {
     try {
-      const blog = {
-        title: title,
-        author: author,
-        url: url,
-      }
       const returnBlog = await blogService.create(blog)
-      resetCreateBlogInput()
       createBlogRef.current.hide()
       showMsg(`a new blog ${returnBlog.title} added`)
       await setAllBlogs()
@@ -77,18 +68,6 @@ const App = () => {
     setPasswod(e.target.value)
   }
 
-  const titleOnChange = (e) => {
-    setTitle(e.target.value)
-  }
-
-  const authorOnChange = (e) => {
-    setAuthor(e.target.value)
-  }
-
-  const urlOnChange = (e) => {
-    setUrl(e.target.value)
-  }
-
   //helper functions
   const setUserRelated = user => {
     setUser(user)
@@ -105,12 +84,6 @@ const App = () => {
   const setAllBlogs = async () => {
     const returnBlogs = await blogService.getAll()
     setBlogs(returnBlogs)
-  }
-
-  const resetCreateBlogInput = () => {
-    setTitle('')
-    setAuthor('')
-    setUrl('')
   }
 
   const showMsg = (message) => {
@@ -147,13 +120,7 @@ const App = () => {
           && <>
             <Togglable text='new blog' ref={createBlogRef}>
               <CreateBlog
-                title={title}
-                author={author}
-                url={url}
-                titleOnChange={titleOnChange}
-                authorOnChange={authorOnChange}
-                urlOnChange={urlOnChange}
-                handleSubmit={handleCreateBlog}
+                createBlog={createBlog}
               />
             </Togglable>
             <BlogList

@@ -1,37 +1,73 @@
-const CreateBlog = (props) => (
-    <div>
-        <h2>Create New</h2>
-        <form onSubmit={props.handleSubmit}>
-            <div>
-                title:
-                <input
-                    type='text'
-                    name='title'
-                    value={props.title}
-                    onChange={props.titleOnChange}
-                />
-            </div>
-            <div>
-                author:
-                <input
-                    type='text'
-                    name='author'
-                    value={props.author}
-                    onChange={props.authorOnChange}
-                />
-            </div>
-            <div>
-                url:
-                <input
-                    type='text'
-                    name='url'
-                    value={props.url}
-                    onChange={props.urlOnChange}
-                />
-            </div>
-            <button type='submit'>create</button>
-        </form>
-    </div>
-)
+import { useState } from 'react'
 
+const CreateBlog = (props) => {
+    const [title, setTitle] = useState('')
+    const [author, setAuthor] = useState('')
+    const [url, setUrl] = useState('')
+
+    const titleOnChange = (e) => {
+        setTitle(e.target.value)
+    }
+
+    const authorOnChange = (e) => {
+        setAuthor(e.target.value)
+    }
+
+    const urlOnChange = (e) => {
+        setUrl(e.target.value)
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const blog = {
+            title: title,
+            author: author,
+            url: url,
+        }
+        await props.createBlog(blog)
+        aftCreateBlogHandler()
+    }
+
+    const aftCreateBlogHandler = () => {
+        setTitle('')
+        setAuthor('')
+        setUrl('')
+    }
+
+    return (
+        <div>
+            <h2>Create New</h2>
+            <form onSubmit={handleSubmit}>
+                <div>
+                    title:
+                    <input
+                        type='text'
+                        name='title'
+                        value={title}
+                        onChange={titleOnChange}
+                    />
+                </div>
+                <div>
+                    author:
+                    <input
+                        type='text'
+                        name='author'
+                        value={author}
+                        onChange={authorOnChange}
+                    />
+                </div>
+                <div>
+                    url:
+                    <input
+                        type='text'
+                        name='url'
+                        value={url}
+                        onChange={urlOnChange}
+                    />
+                </div>
+                <button type='submit'>create</button>
+            </form>
+        </div>
+    )
+}
 export default CreateBlog
