@@ -54,6 +54,24 @@ const App = () => {
     setUserRelated(null)
   }
 
+  const handleLikeClick = async blog => {
+    try {
+      const likeIncBlog = {
+        id: blog.id,
+        title: blog.title,
+        author: blog.author,
+        url: blog.url,
+        likes: blog.likes+1,
+        user: blog.user && blog.user.id
+      }
+      setBlogs(blogs.map(blog => blog.id === likeIncBlog.id ? likeIncBlog : blog))
+      const returnBlog = await blogService.update(likeIncBlog)
+    } catch (err) {
+      await setAllBlogs()
+      console.error(err)
+    }
+  }
+
   //helper functions
   const setUserRelated = user => {
     if (user !== null) {
@@ -99,7 +117,7 @@ const App = () => {
             <h2>blogs</h2>
             <p>{user.name} logged in</p>
             <button onClick={handleLogOut}>logout</button>
-            
+
             <Togglable text='new blog' ref={createBlogRef}>
               <CreateBlog
                 createBlog={createBlog}
@@ -107,6 +125,7 @@ const App = () => {
             </Togglable>
             <BlogList
               blogs={blogs}
+              handleLikeClick={handleLikeClick}
             />
           </>
         }

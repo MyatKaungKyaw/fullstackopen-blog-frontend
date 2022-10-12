@@ -1,6 +1,6 @@
 import Togglable from "./Togglable"
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, handleLikeClick }) => {
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -9,8 +9,8 @@ const Blog = ({ blog }) => {
     marginBottom: 5
   }
 
-  const likeClick = (e) => {
-    console.log('likeclick')
+  const likeClick = async (e) => {
+    await handleLikeClick(blog)
   }
 
   return (
