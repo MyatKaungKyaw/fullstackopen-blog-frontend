@@ -64,10 +64,20 @@ const App = () => {
         likes: blog.likes+1,
         user: blog.user && blog.user.id
       }
-      setBlogs(blogs.map(blog => blog.id === likeIncBlog.id ? likeIncBlog : blog))
-      const returnBlog = await blogService.update(likeIncBlog)
+      const sortBlogs = sortBlogsDesc(blogs.map(blog => blog.id === likeIncBlog.id ? likeIncBlog : blog))
+      setBlogs(sortBlogs)
+      await blogService.update(likeIncBlog)
     } catch (err) {
       await setAllBlogs()
+      console.error(err)
+    }
+  }
+
+  const deleteBlog= async (blogId) => {
+    try{
+      await blogService.remove(blogId)
+      await setAllBlogs()
+    }catch(err){
       console.error(err)
     }
   }
@@ -85,8 +95,11 @@ const App = () => {
 
   const setAllBlogs = async () => {
     const returnBlogs = await blogService.getAll()
-    setBlogs(returnBlogs)
+    const sortBlogs = sortBlogsDesc(returnBlogs)
+    setBlogs(sortBlogs)
   }
+
+  const sortBlogsDesc = blogArr => blogArr.sort((a, b) => a.likes > b.likes ? -1 : 0)
 
   const showMsg = (message) => {
     setMessage(message)
@@ -126,6 +139,8 @@ const App = () => {
             <BlogList
               blogs={blogs}
               handleLikeClick={handleLikeClick}
+              user={user}
+              deleteBlog={deleteBlog}
             />
           </>
         }
