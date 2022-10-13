@@ -13,11 +13,9 @@ const LogIn = (props) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
-        await props.handleLogin(username, password)
-
         setUsername('')
         setPasswod('')
+        await props.handleLogin(username, password)
     }
 
     return (
