@@ -23,6 +23,7 @@ const App = () => {
       setAllBlogs()
       setUserRelated(JSON.parse(loggedInUser))
     }
+    // eslint-disable-next-line
   }, [])
 
   const handleLogin = async (username, password) => {
