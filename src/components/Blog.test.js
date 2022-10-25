@@ -23,10 +23,11 @@ describe('Blog component', () => {
     })
     
     test('at start url and likes are not rendered',() => {
-        const a = container.querySelector('.blog-link')
-        // const a = screen.getByText('https://www.rottentomatoes.com/m/black_adam')
+        // const a = container.querySelector('.blog-link')
+        // const a = screen.queryByText('https://www.rottentomatoes.com/m/black_adam')
+        const a = screen.queryByTestId('fsdjhfdsfdsa')
 
         screen.debug(a)
-        expect(a).toBeDefined()
+        expect(a).not.toBeInTheDocument()
     })
 })
