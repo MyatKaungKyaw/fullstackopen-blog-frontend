@@ -28,7 +28,7 @@ const Blog = ({ blog, handleLikeClick, user, deleteBlog }) => {
       {!visible && <button onClick={show} className='inline'>view</button>}
       {visible && <>
         <button onClick={hide} className='inline'>hide</button>
-        <a href={blog.url} target='_blank' rel="noreferrer" className='blog-url'>{blog.url}</a>
+        <a href={blog.url} target='_blank' rel="noreferrer" className='blog-url blog-link'>{blog.url}</a>
         <div>
           <p className='blog-like'>likes : {blog.likes} </p>
           <button onClick={likeClick} className='blog-like'>like</button>
