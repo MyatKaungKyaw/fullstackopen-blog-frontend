@@ -40,7 +40,7 @@ const CreateBlog = (props) => {
       <h2>Create New</h2>
       <form onSubmit={handleSubmit}>
         <div>
-                    title:
+          title:
           <input
             type='text'
             name='title'
@@ -49,7 +49,7 @@ const CreateBlog = (props) => {
           />
         </div>
         <div>
-                    author:
+          author:
           <input
             type='text'
             name='author'
@@ -58,7 +58,7 @@ const CreateBlog = (props) => {
           />
         </div>
         <div>
-                    url:
+          url:
           <input
             type='text'
             name='url'
