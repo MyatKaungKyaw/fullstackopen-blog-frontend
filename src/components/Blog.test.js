@@ -1,6 +1,7 @@
 import React from 'react'
 import '@testing-library/jest-dom'
 import {render,screen} from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import Blog from './Blog'
 
 describe('Blog component', () => {
@@ -24,7 +25,22 @@ describe('Blog component', () => {
     
     test('at start url and likes are not rendered',() => {
         const a = screen.queryByText('https://www.rottentomatoes.com/m/black_adam')
-        screen.debug(a)
         expect(a).not.toBeInTheDocument()
     })
+
+    test('after click to view button, details are display',async () => {
+        //apply workarounds and mock the UI layer to simulate user 
+        //interactions like they would happen in the browser.
+        const user = userEvent.setup()
+
+        const button = screen.getByText('view')
+        await user.click(button)
+
+        const link = screen.getByText('https://www.rottentomatoes.com/m/black_adam')
+        expect(link).toBeDefined()
+
+        const likes = screen.getByText('likes : 39')
+        expect(likes).toBeDefined()
+    })
+    
 })
