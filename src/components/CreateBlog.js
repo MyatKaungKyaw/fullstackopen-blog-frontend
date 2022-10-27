@@ -46,6 +46,7 @@ const CreateBlog = (props) => {
             name='title'
             value={title}
             onChange={titleOnChange}
+            placeholder='title'
           />
         </div>
         <div>
@@ -55,6 +56,7 @@ const CreateBlog = (props) => {
             name='author'
             value={author}
             onChange={authorOnChange}
+            placeholder='author'
           />
         </div>
         <div>
@@ -64,6 +66,7 @@ const CreateBlog = (props) => {
             name='url'
             value={url}
             onChange={urlOnChange}
+            placeholder='url'
           />
         </div>
         <button type='submit'>create</button>
